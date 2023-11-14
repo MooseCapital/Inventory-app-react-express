@@ -6,6 +6,7 @@ function Home(props) {
 
 //dispatch used to run the reducer/set the state, we must also import the reducer above
 const dispatch = useDispatch()
+    // console.log(import.meta.env.VITE_API_LINK)
 //useSelector is used to access the states value
 const testState = useSelector((store) => store.test);
     return (
