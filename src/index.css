@@ -2,15 +2,15 @@
  margin: 0 auto;
 padding: 0;
 box-sizing: border-box;
-font-family: Rubik, serif ;
+font-family: roboto, serif ;
 font-weight: 500;
 font-size: 18px;
 -webkit-text-size-adjust: 100%;
 height: 100%;
 }
 @font-face {
-    font-family: "Rubik";
-    src: url("/public/fonts/Rubik.woff2") format("woff2");
+    font-family: "roboto";
+    src: url("/fonts/roboto-regular.woff2") format("woff2");
 }
 /*remember we set height, but if we set width, it does not take into account the scrollbar 10px, this creates horizontal scroller on the bottom
     the solution is to not set width anywhere and it defaults, or set auto only, but we should set height. if we do set width, choose 100% over 100vw
