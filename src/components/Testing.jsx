@@ -26,29 +26,36 @@ function Home(props) {
 
 */
     function updateData() {
-        props.state.setTestFetchRan(prevState => false)
-        props.state.setTestCount(prevState => prevState + 1)
+        props.setTestingComp(prevState => ({
+            ...prevState,
+            fetchRan: false,
+            count: prevState.count + 1
+        }))
     }
+
 
     useEffect(() => {
         let subscribed = true;
         try {
-            if (!props.state.testFetchRan) {
+            if (!props.testingComp.fetchRan) {
             async function getData() {
-                let res = await fetch(`${import.meta.env.VITE_API_LINK}/people/1`, {
+                let res = await fetch(`${import.meta.env.VITE_API_LINK}/store/test`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
                 // body: JSON.stringify(data_object)
             });
                 let data = await res.json();
                 if (subscribed) {
-                    props.state.setLoading(false)
-                    props.state.setTestFetch(prevState => data)
+                    props.setTestingComp(prevState => ({
+                    ...prevState,
+                    loading: false,
+                    fetchData: data
+                }))
                     console.log(data)
                 }
             }
                 getData()
-                props.state.setTestFetchRan(prevState => true)
+                props.setTestingComp(prevState => ({...prevState, fetchRan: true }))
             }
         } catch (e) {
             console.log(e)
@@ -58,16 +65,16 @@ function Home(props) {
             console.log("clean up function")
             subscribed = false;
         }
-    }, [props.state.testCount])
+    }, [props.testingComp.count])
 
     return (
         <>
             <button onClick={updateData}>test fetch</button>
         {
-            props.state.loading ? <div>loading...</div> :
+            props.testingComp.loading ? <div>loading...</div> :
         <>
             <div>test page</div>
-            <div>{JSON.stringify(props.state.testFetch)}</div>
+            <div>{JSON.stringify(props.testingComp.fetchData)}</div>
         </>
         }
         </>

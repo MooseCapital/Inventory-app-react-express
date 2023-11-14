@@ -11,16 +11,17 @@ import Testing from "./components/Testing.jsx";
 function App(props) {
 
     const testState = useSelector((store) => store.test);
+
     const [testingComp, setTestingComp] = useState({
         fetchData: null,
         loading: true,
         fetchRan: false,
         count: 0
     })
-    const [testFetch, setTestFetch] = useState(null)
+    /* const [testFetch, setTestFetch] = useState(null)
     const [loading, setLoading] = useState(true)
     const [testFetchRan, setTestFetchRan] = useState(false);
-    const [testCount, setTestCount] = useState(0)
+    const [testCount, setTestCount] = useState(0) */
 
   return (
     <div className={`${testState.colorMode} App`}>
@@ -32,7 +33,7 @@ function App(props) {
 
         <Routes>
             <Route path="/" element={<Home/>}/>
-            <Route path="/testing"  element={<Testing state={{testFetch,setTestFetch,loading,setLoading, testFetchRan,setTestFetchRan, testCount, setTestCount}} />}/>
+            <Route path="/testing"  element={<Testing testingComp={testingComp} setTestingComp={setTestingComp} />}/>
             <Route path="/About"  element={<About fruit={'apple'} /> }/>
 
             {/* catch all, so any unknown pages navigate back to the home page, or
