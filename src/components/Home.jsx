@@ -8,6 +8,7 @@ function Home(props) {
 const dispatch = useDispatch()
     // console.log(import.meta.env.VITE_API_LINK)
 //useSelector is used to access the states value
+
 const testState = useSelector((store) => store.test);
     return (
         <>

@@ -1,22 +1,9 @@
 import {useContext, useEffect, useState, useRef} from 'react'
 import React from 'react'
-// import {useDispatch, useSelector} from "react-redux";
-// import {testMakeFalse, testMakeTrue} from "../features/test/testSlice.js";
+import {useDispatch, useSelector} from "react-redux";
+import {setFetchRan,setLoading,setFetchData, setCount} from "../features/apiTesting/apiTest.js";
 function Home(props) {
-// const [testFetch, setTestFetch] = useState(null)
-// const [loading, setLoading] = useState(true)
 
-    /* async function testData() {
-                let res = await fetch(`${import.meta.env.VITE_API_LINK}/store/test`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-                // body: JSON.stringify(data_object)
-            });
-                let data = await res.json();
-                    props.state.setLoading(false)
-                    props.state.setTestFetch(prevState => data)
-                    console.log(data)
-            } */
 
 /*
     our useEffect fetch solution works to fetch only on the first mount and NOT to call the database fetch again if we simply unmount by going to homepage route
@@ -25,6 +12,20 @@ function Home(props) {
     -> we let it be run-able again by setting the useEffect state to false props.state.setTestFetchRan(prevState => false)
 
 */
+/*
+    in redux we dispatch a reducer event, that reducer request dispatch will have an object with https://www.tutorialspoint.com/redux/redux_actions.htm
+    the name of the request and payload which we use to send data in the request and can take that data in the reducer to use
+        { type: GET_WISHLIST_ITEMS, payload: userId }
+
+    dispatch with fetched data:
+        dispatch({
+            type: 'FETCH_MOVIE',
+            payload: response.data
+        })
+
+*/
+    const apiTestingState = useSelector((store) => store.apiTesting);
+
     function updateData() {
         props.setTestingComp(prevState => ({
             ...prevState,
