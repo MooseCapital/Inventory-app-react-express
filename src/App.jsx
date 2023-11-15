@@ -18,10 +18,7 @@ function App(props) {
         fetchRan: false,
         count: 0
     })
-    /* const [testFetch, setTestFetch] = useState(null)
-    const [loading, setLoading] = useState(true)
-    const [testFetchRan, setTestFetchRan] = useState(false);
-    const [testCount, setTestCount] = useState(0) */
+
 
   return (
     <div className={`${testState.colorMode} App`}>

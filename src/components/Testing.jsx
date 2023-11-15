@@ -1,7 +1,7 @@
 import {useContext, useEffect, useState, useRef} from 'react'
 import React from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import {setFetchRan,setLoading,setFetchData, setCount} from "../features/apiTesting/apiTest.js";
+import {setFetchRanTrue,setFetchRanFalse,setLoadingTrue,setLoadingFalse,setFetchData, setCount} from "../features/apiTesting/apiTest.js";
 function Home(props) {
 
 
@@ -24,6 +24,8 @@ function Home(props) {
         })
 
 */
+
+    const dispatch = useDispatch();
     const apiTestingState = useSelector((store) => store.apiTesting);
 
     function updateData() {

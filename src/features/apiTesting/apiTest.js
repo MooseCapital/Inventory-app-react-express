@@ -18,18 +18,19 @@ reducers: {
     testMakeFalse: (state, action) => {
         state.isOpen = false;
     },
-    setFetchRan: (state, action) => {
-        if (action.type === false) {
-           return state.fetchRan = false;
-        }
-            state.fetchRan = true;
+    setFetchRanFalse: (state, action) => {
+        state.fetchRan = false;
         },
-    setLoading: (state, action) => {
-            if (action.type === false) {
-            return state.loading = false;
-        }
-            state.loading = true;
+    setFetchRanTrue: (state, action) => {
+        state.fetchRan = true;
+    },
+    setLoadingFalse: (state, action) => {
+        state.loading = false;
         },
+    setLoadingTrue: (state, action) => {
+        state.loading = true;
+    },
+
     setFetchData: (state, action) => {
             state.fetchData = action.payload;
         },
@@ -40,7 +41,7 @@ reducers: {
 }
 })
 
-export const {setFetchData,setLoading,setFetchRan,setCount} = apiTestSlice.actions;
+export const {setFetchData,setLoadingTrue, setLoadingFalse,setFetchRanTrue, setFetchRanFalse,setCount} = apiTestSlice.actions;
 
 export default apiTestSlice.reducer;
 
