@@ -24,23 +24,35 @@ function Home(props) {
         })
 
 */
+   /*  const dispatch = useDispatch();
+    const apiTestingState = useSelector((store) => store.apiTesting); */
 
-    const dispatch = useDispatch();
-    const apiTestingState = useSelector((store) => store.apiTesting);
+
+    const [testingComp, setTestingComp] = useState(JSON.parse(sessionStorage.getItem("testingComp")) || {
+            fetchData: null,
+            loading: true,
+            fetchRan: false,
+            count: 0
+        });
+
+    useEffect(() => {
+        sessionStorage.setItem("testingComp", JSON.stringify(testingComp))
+        return () => {
+        }
+    },[testingComp])
 
     function updateData() {
-        props.setTestingComp(prevState => ({
+        setTestingComp(prevState => ({
             ...prevState,
             fetchRan: false,
             count: prevState.count + 1
         }))
     }
 
-
     useEffect(() => {
         let subscribed = true;
         try {
-            if (!props.testingComp.fetchRan) {
+            if (!testingComp.fetchRan) {
             async function getData() {
                 let res = await fetch(`${import.meta.env.VITE_API_LINK}/store/test`, {
                 method: 'GET',
@@ -49,7 +61,7 @@ function Home(props) {
             });
                 let data = await res.json();
                 if (subscribed) {
-                    props.setTestingComp(prevState => ({
+                    setTestingComp(prevState => ({
                     ...prevState,
                     loading: false,
                     fetchData: data
@@ -58,7 +70,7 @@ function Home(props) {
                 }
             }
                 getData()
-                props.setTestingComp(prevState => ({...prevState, fetchRan: true }))
+                setTestingComp(prevState => ({...prevState, fetchRan: true }))
             }
         } catch (e) {
             console.log(e)
@@ -68,16 +80,16 @@ function Home(props) {
             console.log("clean up function")
             subscribed = false;
         }
-    }, [props.testingComp.count])
+    }, [testingComp.count])
 
     return (
         <>
             <button onClick={updateData}>test fetch</button>
         {
-            props.testingComp.loading ? <div>loading...</div> :
+            testingComp.loading ? <div>loading...</div> :
         <>
             <div>test page</div>
-            <div>{JSON.stringify(props.testingComp.fetchData)}</div>
+            <div>{JSON.stringify(testingComp.fetchData)}</div>
         </>
         }
         </>
