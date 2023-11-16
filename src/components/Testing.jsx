@@ -2,6 +2,7 @@ import {useContext, useEffect, useState, useRef} from 'react'
 import React from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {setFetchRanTrue,setFetchRanFalse,setLoadingTrue,setLoadingFalse,setFetchData, setCount} from "../features/apiTesting/apiTest.js";
+import {persistFetch} from "../../Hooks/persistFetch.js";
 function Home(props) {
 
 
@@ -27,60 +28,10 @@ function Home(props) {
    /*  const dispatch = useDispatch();
     const apiTestingState = useSelector((store) => store.apiTesting); */
 
+    const [testingComp, setTestingComp, updateData] = persistFetch('/store/test')
 
-    const [testingComp, setTestingComp] = useState(JSON.parse(sessionStorage.getItem("testingComp")) || {
-            fetchData: null,
-            loading: true,
-            fetchRan: false,
-            count: 0
-        });
 
-    useEffect(() => {
-        sessionStorage.setItem("testingComp", JSON.stringify(testingComp))
-        return () => {
-        }
-    },[testingComp])
 
-    function updateData() {
-        setTestingComp(prevState => ({
-            ...prevState,
-            fetchRan: false,
-            count: prevState.count + 1
-        }))
-    }
-
-    useEffect(() => {
-        let subscribed = true;
-        try {
-            if (!testingComp.fetchRan) {
-            async function getData() {
-                let res = await fetch(`${import.meta.env.VITE_API_LINK}/store/test`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-                // body: JSON.stringify(data_object)
-            });
-                let data = await res.json();
-                if (subscribed) {
-                    setTestingComp(prevState => ({
-                    ...prevState,
-                    loading: false,
-                    fetchData: data
-                }))
-                    console.log(data)
-                }
-            }
-                getData()
-                setTestingComp(prevState => ({...prevState, fetchRan: true }))
-            }
-        } catch (e) {
-            console.log(e)
-        }
-
-        return () => {
-            console.log("clean up function")
-            subscribed = false;
-        }
-    }, [testingComp.count])
 
     return (
         <>
@@ -89,6 +40,7 @@ function Home(props) {
             testingComp.loading ? <div>loading...</div> :
         <>
             <div>test page</div>
+            <div>session storage solution with local component state, no props</div>
             <div>{JSON.stringify(testingComp.fetchData)}</div>
         </>
         }

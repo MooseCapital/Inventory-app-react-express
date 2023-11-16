@@ -19,7 +19,6 @@ function App(props) {
         count: 0
     })
 
-
   return (
     <div className={`${testState.colorMode} App`}>
         <div>
