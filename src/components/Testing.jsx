@@ -28,7 +28,7 @@ function Home(props) {
    /*  const dispatch = useDispatch();
     const apiTestingState = useSelector((store) => store.apiTesting); */
 
-    const [testingComp, setTestingComp, updateData] = persistFetch('/store/test')
+    const [persistComp, setPersistComp, updateData] = persistFetch('/store/test')
 
 
 
@@ -37,11 +37,11 @@ function Home(props) {
         <>
             <button onClick={updateData}>test fetch</button>
         {
-            testingComp.loading ? <div>loading...</div> :
+            persistComp.loading ? <div>loading...</div> :
         <>
             <div>test page</div>
             <div>session storage solution with local component state, no props</div>
-            <div>{JSON.stringify(testingComp.fetchData)}</div>
+            <div>{JSON.stringify(persistComp.fetchData)}</div>
         </>
         }
         </>

@@ -4,7 +4,7 @@ import React from 'react'
 function persistFetch(apiLink) {
 
 
-    const [testingComp, setTestingComp] = useState(JSON.parse(sessionStorage.getItem("testingComp")) || {
+    const [persistComp, setPersistComp] = useState(JSON.parse(sessionStorage.getItem("PersistComp")) || {
             fetchData: null,
             loading: true,
             fetchRan: false,
@@ -12,13 +12,13 @@ function persistFetch(apiLink) {
         });
 
     useEffect(() => {
-        sessionStorage.setItem("testingComp", JSON.stringify(testingComp))
+        sessionStorage.setItem("PersistComp", JSON.stringify(persistComp))
         return () => {
         }
-    },[testingComp.fetchData])
+    },[persistComp.fetchData])
 
     function updateData() {
-        setTestingComp(prevState => ({
+        setPersistComp(prevState => ({
             ...prevState,
             fetchRan: false,
             count: prevState.count + 1
@@ -26,39 +26,42 @@ function persistFetch(apiLink) {
     }
 
     useEffect(() => {
-        let subscribed = true;
+        // let subscribed = true;
+        const controller = new AbortController();
         try {
-            if (!testingComp.fetchRan) {
+            if (!persistComp.fetchRan) {
             async function getData() {
                 let res = await fetch(`${import.meta.env.VITE_API_LINK}${apiLink}`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
+                signal: controller.signal
                 // body: JSON.stringify(data_object)
                 });
                 console.log('fetching')
                 let data = await res.json();
-                if (subscribed) {
-                    setTestingComp(prevState => ({
+
+                    setPersistComp(prevState => ({
                         ...prevState,
                         loading: false,
                         fetchData: data
                     }))
-                }
+
             }
             getData()
-            setTestingComp(prevState => ({...prevState, fetchRan: true }))
+            setPersistComp(prevState => ({...prevState, fetchRan: true }))
             }
         } catch (e) {
             console.log(e)
         }
         return () => {
             console.log("clean up function")
-            subscribed = false;
+            controller.abort()
+            // subscribed = false;
         }
-    }, [testingComp.fetchData, testingComp.count])
+    }, [persistComp.fetchData, persistComp.count])
 
 
-    return [testingComp, setTestingComp, updateData]
+    return [persistComp, setPersistComp, updateData]
 }
 
 export {persistFetch}
