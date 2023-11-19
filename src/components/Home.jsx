@@ -13,8 +13,8 @@ const testState = useSelector((store) => store.test);
     return (
         <>
             <div>Home page</div>
-            <button className={"test-btn"} onClick={() => dispatch(testMakeFalse())}>make state false</button>
-            <button className={"test-btn"} onClick={() => dispatch(testMakeTrue())}>make state true</button>
+            <button className={"test-btn .button"} onClick={() => dispatch(testMakeFalse())}>make state false</button>
+            <button className={"test-btn .button"} onClick={() => dispatch(testMakeTrue())}>make state true</button>
             <p>{`current state: ${testState.testState}`}</p>
         </>
     )

@@ -1,11 +1,14 @@
 import {useContext, useEffect, useState, useRef} from 'react'
 import React from 'react'
-function About(props) {
+import axios from "axios";
+import styled from 'styled-components'
 
+function About(props) {
 
     return (
         <>
             <div>About page</div>
+            <button >button test</button>
         </>
     )
 }

@@ -1,24 +1,25 @@
 import {useContext, useEffect, useState, useRef} from 'react'
 import React from 'react'
+import axios from "axios";
 
-function persistFetch(apiLink) {
+function persistAxiosData(apiLink) {
 
 
-    const [persistComp, setPersistComp] = useState(JSON.parse(sessionStorage.getItem("PersistComp")) || {
-            fetchData: null,
-            loading: true,
-            fetchRan: false,
-            count: 0
-        });
+    const [persistComponent, setPersistComponent] = useState(JSON.parse(sessionStorage.getItem("PersistComponent")) || {
+        fetchData: null,
+        loading: true,
+        fetchRan: false,
+        count: 0
+    });
 
     useEffect(() => {
-        sessionStorage.setItem("PersistComp", JSON.stringify(persistComp))
+        sessionStorage.setItem("PersistComponent", JSON.stringify(persistComponent))
         return () => {
         }
-    },[persistComp.fetchData])
+    }, [persistComponent.fetchData])
 
     function updateData() {
-        setPersistComp(prevState => ({
+        setPersistComponent(prevState => ({
             ...prevState,
             fetchRan: false,
             count: prevState.count + 1
@@ -26,44 +27,35 @@ function persistFetch(apiLink) {
     }
 
     useEffect(() => {
-        // let subscribed = true;
-        const controller = new AbortController();
         try {
-            if (!persistComp.fetchRan) {
-            async function getData() {
-                let res = await fetch(`${import.meta.env.VITE_API_LINK}${apiLink}`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-                signal: controller.signal
-                // body: JSON.stringify(data_object)
-                });
-                console.log('fetching')
-                let data = await res.json();
+            if (!persistComponent.fetchRan) {
 
-                    setPersistComp(prevState => ({
+                async function getAxiosData() {
+                    let res = await axios.get(`${import.meta.env.VITE_API_LINK}${apiLink}`);
+                    let data = await res.data;
+                    console.log(data)
+                    setPersistComponent(prevState => ({
                         ...prevState,
                         loading: false,
                         fetchData: data
                     }))
-
+                }
+                getAxiosData()
+                setPersistComponent(prevState => ({...prevState, fetchRan: true}))
             }
-            getData()
-            setPersistComp(prevState => ({...prevState, fetchRan: true }))
-            }
-        } catch (e) {
+        }
+        catch (e) {
             console.log(e)
         }
         return () => {
             console.log("clean up function")
-            controller.abort()
-            // subscribed = false;
         }
-    }, [persistComp.fetchData, persistComp.count])
+    }, [persistComponent.fetchData, persistComponent.count])
 
 
-    return [persistComp, setPersistComp, updateData]
+    return [persistComponent, setPersistComponent, updateData]
 }
 
-export {persistFetch}
+export {persistAxiosData}
 
 
